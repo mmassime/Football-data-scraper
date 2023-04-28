@@ -1,15 +1,20 @@
 from bs4 import BeautifulSoup
 import requests
+
 class League():
-    def __init__(self, league_name, league_nb, country):
+    def __init__(self, league_name, league_nb, country, year):
         self.league_name = league_name
         self.league_nb = league_nb
         self.country = country
+        self.year = year
         self.teams = self.get_teams()
     
     def get_teams(self):
         """Get all the teams in the league with a code assigned to them by the website"""
-        html_pl_teams = requests.get(f'https://fbref.com/en/comps/{self.league_nb}/{self.league_name}-Stats').text
+        if self.year == 'current':
+            html_pl_teams = requests.get(f'https://fbref.com/en/comps/{self.league_nb}/{self.league_name}-Stats').text
+        else:
+            html_pl_teams = requests.get(f'https://fbref.com/en/comps/{self.league_nb}/{self.year}/{self.year}-{self.league_name}-Stats').text
         soup = BeautifulSoup(html_pl_teams, 'lxml')
         teams_soup = soup.find_all('table', class_='stats_table sortable min_width force_mobilize')[1]
         teams_soup_teams = teams_soup.find_all('a')
@@ -21,7 +26,10 @@ class League():
  
     def get_table(self):
         '''Return a dict reppresenting the current league table'''
-        html_pl_teams = requests.get(f'https://fbref.com/en/comps/{self.league_nb}/{self.league_name}-Stats').text
+        if self.year == 'current':
+            html_pl_teams = requests.get(f'https://fbref.com/en/comps/{self.league_nb}/{self.league_name}-Stats').text
+        else:
+            html_pl_teams = requests.get(f'https://fbref.com/en/comps/{self.league_nb}/{self.year}/{self.year}-{self.league_name}-Stats').text
         soup = BeautifulSoup(html_pl_teams, 'lxml')
         teams_soup = soup.find_all('table', class_='stats_table sortable min_width force_mobilize')[1]
         teams_soup_teams = teams_soup.find_all('a')
@@ -41,7 +49,10 @@ class League():
     
     def get_matches(self):
         """Get all the matches of the league"""
-        html_pl_teams = requests.get(f'https://fbref.com/en/comps/{self.league_nb}/schedule/{self.league_name}-Scores-and-Fixtures').text
+        if self.year == 'current':
+            html_pl_teams = requests.get(f'https://fbref.com/en/comps/{self.league_nb}/schedule/{self.league_name}-Scores-and-Fixtures').text
+        else:
+            html_pl_teams = requests.get(f'https://fbref.com/en/comps/{self.league_nb}/{self.year}/schedule/{self.year}-{self.league_name}-Scores-and-Fixtures').text
         soup = BeautifulSoup(html_pl_teams, 'lxml')
         row_soup = soup.find_all('tr')
         matches = []
@@ -60,7 +71,10 @@ class League():
         if not team in self.teams:
             print("Team not found")
             return []
-        html_pl_teams = requests.get(f'https://fbref.com/en/squads/{self.teams[team]}/{team}-Stats').text
+        if self.year == 'current':
+            html_pl_teams = requests.get(f'https://fbref.com/en/squads/{self.teams[team]}/{team}-Stats').text
+        else:
+            html_pl_teams = requests.get(f'https://fbref.com/en/squads/{self.teams[team]}/{self.year}/{team}-Stats').text
         soup = BeautifulSoup(html_pl_teams, 'lxml')
         table_soup = soup.find('table', id="matchlogs_for")
         row_soup = table_soup.find_all('tr')
@@ -96,22 +110,22 @@ class League():
         return matches
      
 class PremierLeague(League):
-    def __init__(self):
-        League.__init__(self, 'Premier-League', '9', 'England')
+    def __init__(self, year="current"):
+        League.__init__(self, 'Premier-League', '9', 'England', year)
 
 class LaLiga(League):
-    def __init__(self):
-        League.__init__(self, 'La-Liga', '12', 'Spain')  
+    def __init__(self, year="current"):
+        League.__init__(self, 'La-Liga', '12', 'Spain', year)  
 
 class SerieA(League):
-    def __init__(self):
-        League.__init__(self, 'Serie-A', '11', 'Italy')  
+    def __init__(self, year="current"):
+        League.__init__(self, 'Serie-A', '11', 'Italy', year)  
 
 class Ligue1(League):
-    def __init__(self):
-        League.__init__(self, 'Ligue-1', '13', 'France') 
+    def __init__(self, year="current"):
+        League.__init__(self, 'Ligue-1', '13', 'France', year) 
 
 class Bundes(League): 
-    def __init__(self):
-        League.__init__(self, 'Bundesliga', '20', 'Bundes')
+    def __init__(self, year="current"):
+        League.__init__(self, 'Bundesliga', '20', 'Bundes', year)
 

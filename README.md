@@ -19,6 +19,11 @@ from Leagues import PremierLeague
 
 premier_league = PremierLeague()
 ```
+by default you get data from the current year but it's also possible to get data from previous years by passing it to the constructor like this. 
+
+```py
+premier_league = PremierLeague('2007-2008')
+```
 
 ## Methods of a league object:
 get_table() : return a dictionary reppresenting the league table.
@@ -69,4 +74,5 @@ output = [('Crystal Palace', '0-2', 'Arsenal', 1, '2022-08-05')
         ('Arsenal', '2-1', 'Aston Villa', 5, '2022-08-31')
         ...]
 ```
+More functions will be added in the future.
 
