@@ -6,7 +6,7 @@ leagues = [PremierLeague(),
            Bundes(),
            Ligue1()]
 #Print all the tables of the main leagues
-for league in leagues:
+for league in leagues[:1]:
     print("\n####",league.league_name ,"####\n")
     table = league.get_table()
     print(table)
