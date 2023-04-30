@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from Team import Team
 import requests
 
 class League():
@@ -21,7 +22,7 @@ class League():
         teams = {}
 
         for team in teams_soup_teams:
-            teams[team.text] = team['href'][11:19]
+            teams[team.text] = Team(team.text, team['href'][11:19], self, self.year)
         return teams
  
     def get_table(self):
@@ -37,7 +38,7 @@ class League():
         teams = {}
 
         for team, img, i in zip(teams_soup_teams, teams_soup_img, range(1, len(teams_soup_teams)+1)):
-            teams[i] = team.text
+            teams[i] = self.teams[team.text]
             """
             img_data = requests.get(img['src']).content 
 
@@ -71,43 +72,8 @@ class League():
         if not team in self.teams:
             print("Team not found")
             return []
-        if self.year == 'current':
-            html_pl_teams = requests.get(f'https://fbref.com/en/squads/{self.teams[team]}/{team}-Stats').text
-        else:
-            html_pl_teams = requests.get(f'https://fbref.com/en/squads/{self.teams[team]}/{self.year}/{team}-Stats').text
-        soup = BeautifulSoup(html_pl_teams, 'lxml')
-        table_soup = soup.find('table', id="matchlogs_for")
-        row_soup = table_soup.find_all('tr')
-        matches = []
-        week = 0
-        for tr in row_soup:
-            league = tr.find('td', {'data-stat':'comp'})
-            if league and league.text == self.league_name.replace("-", " "):
-                week += 1
-                venue = tr.find('td', {'data-stat':'venue'})
-                if venue and venue.text == "Home":
-                    team1 = team
-                    team2 = tr.find('td', {'data-stat':'opponent'}).text
-                    gf = tr.find('td', {'data-stat':'goals_for'})
-                    ga = tr.find('td', {'data-stat':'goals_against'})
-                    if gf:
-                        score = f'{gf.text}-{ga.text}'
-                    else:
-                        score = ''
-                    date = tr.find('th', {'data-stat':'date'}).text
-                    matches.append((team1, score, team2, week, date))
-                else:
-                    team1 = tr.find('td', {'data-stat':'opponent'}).text
-                    team2 = team
-                    ga = tr.find('td', {'data-stat':'goals_for'})
-                    gf = tr.find('td', {'data-stat':'goals_against'})
-                    if gf:
-                        score = f'{gf.text}-{ga.text}'
-                    else:
-                        score = ''
-                    date = tr.find('th', {'data-stat':'date'}).text
-                    matches.append((team1, score, team2, week, date))
-        return matches
+        return self.teams[team].get_matches()
+        
      
 class PremierLeague(League):
     def __init__(self, year="current"):

@@ -1,6 +1,6 @@
 from Leagues import PremierLeague, SerieA, LaLiga, Bundes, Ligue1
 
-leagues = [PremierLeague(),
+leagues = [PremierLeague('2002-2003'),
            SerieA('1999-2000'),
            LaLiga(),
            Bundes(),
@@ -8,18 +8,6 @@ leagues = [PremierLeague(),
 #Print all the tables of the main leagues
 
 
-for league in leagues[1:2]:
-    print("\n####",league.league_name ,"####\n")
-    table = league.get_table()
-    print(table)
-    print("\nALL THE MATCHES :\n")
-    matches = league.get_matches()
-    for match in matches:
-        print(match)
-    print("\nALL THE MATCHES OF FIRST TEAM:\n")
-    matches = league.get_matches_team(table[1])
-    for match in matches:
-        print(match)
-
+print(leagues[0].get_table()[10].get_matches())
     
 
