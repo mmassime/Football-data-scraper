@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+from Player import Player
 
 class Team():
     def __init__(self, name, code, league, year='current') -> None:
@@ -47,5 +48,21 @@ class Team():
                     matches.append((team1, score, team2, week, date))
         return matches
     
+    def get_players(self):
+        if self.year == 'current':
+            html_team = requests.get(f'https://fbref.com/en/squads/{self.code}/{self.name}-Stats').text
+        else:
+            html_team = requests.get(f'https://fbref.com/en/squads/{self.code}/{self.year}/{self.name}-Stats').text
+        soup = BeautifulSoup(html_team, 'lxml')
+        team_soup = soup.find('tbody')
+        player_soup = team_soup.find_all('tr')
+        players = {}
+        for player in player_soup:
+            name = player.find('th', {'data-stat':'player'}).text
+            team = self.name
+            pos = player.find('td', {'data-stat':'position'}).text
+            players[name] = Player(name, team, pos)
+        return players        
+
     def __repr__(self) -> str:
         return self.name

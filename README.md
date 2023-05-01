@@ -1,6 +1,10 @@
 # Football data scraper
 Web scarper to retrieve football data from https://fbref.com/en/
 
+Attention: if the website detects too many requests per minute it might block you for 1 hour
+
+
+
 ## Requirements:
 -   beautifulsoup4=4.12.2
 -   requests=2.28.1
