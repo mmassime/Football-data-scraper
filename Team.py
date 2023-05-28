@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 from Player import Player
+import time
 
 class Team():
     def __init__(self, name, code, league, year='current') -> None:
@@ -14,6 +15,7 @@ class Team():
             html_pl_teams = requests.get(f'https://fbref.com/en/squads/{self.code}/{self.name}-Stats').text
         else:
             html_pl_teams = requests.get(f'https://fbref.com/en/squads/{self.code}/{self.year}/{self.name}-Stats').text
+        time.sleep(0.5)
         soup = BeautifulSoup(html_pl_teams, 'lxml')
         table_soup = soup.find('table', id="matchlogs_for")
         row_soup = table_soup.find_all('tr')
@@ -53,6 +55,7 @@ class Team():
             html_team = requests.get(f'https://fbref.com/en/squads/{self.code}/{self.name}-Stats').text
         else:
             html_team = requests.get(f'https://fbref.com/en/squads/{self.code}/{self.year}/{self.name}-Stats').text
+        time.sleep(0.5)
         soup = BeautifulSoup(html_team, 'lxml')
         team_soup = soup.find('tbody')
         player_soup = team_soup.find_all('tr')
@@ -64,5 +67,15 @@ class Team():
             players[name] = Player(name, team, pos)
         return players        
 
+    def get_logo(self, path=""):
+        html_team = requests.get(f'https://fbref.com/en/squads/{self.code}/{self.name}-Stats').text
+        time.sleep(0.5)
+        soup = BeautifulSoup(html_team, 'lxml')
+        teams_soup_img = soup.find('img', class_="teamlogo")
+        img_data = requests.get(teams_soup_img['src']).content 
+        time.sleep(0.5)
+        with open(f'{path}{self.name}.jpg', 'wb') as handler: 
+                handler.write(img_data)
+                
     def __repr__(self) -> str:
         return self.name

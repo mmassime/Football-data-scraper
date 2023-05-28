@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from Team import Team
 import requests
+import time
 
 class League():
     def __init__(self, league_name, league_nb, country, year):
@@ -16,6 +17,7 @@ class League():
             html_pl_teams = requests.get(f'https://fbref.com/en/comps/{self.league_nb}/{self.league_name}-Stats').text
         else:
             html_pl_teams = requests.get(f'https://fbref.com/en/comps/{self.league_nb}/{self.year}/{self.year}-{self.league_name}-Stats').text
+        time.sleep(0.5)
         soup = BeautifulSoup(html_pl_teams, 'lxml')
         teams_soup = soup.find_all('table', class_='stats_table sortable min_width force_mobilize')[1]
         teams_soup_teams = teams_soup.find_all('a')
@@ -31,6 +33,7 @@ class League():
             html_pl_teams = requests.get(f'https://fbref.com/en/comps/{self.league_nb}/{self.league_name}-Stats').text
         else:
             html_pl_teams = requests.get(f'https://fbref.com/en/comps/{self.league_nb}/{self.year}/{self.year}-{self.league_name}-Stats').text
+        time.sleep(0.5)
         soup = BeautifulSoup(html_pl_teams, 'lxml')
         teams_soup = soup.find_all('table', class_='stats_table sortable min_width force_mobilize')[1]
         teams_soup_teams = teams_soup.find_all('a')
@@ -54,6 +57,7 @@ class League():
             html_pl_teams = requests.get(f'https://fbref.com/en/comps/{self.league_nb}/schedule/{self.league_name}-Scores-and-Fixtures').text
         else:
             html_pl_teams = requests.get(f'https://fbref.com/en/comps/{self.league_nb}/{self.year}/schedule/{self.year}-{self.league_name}-Scores-and-Fixtures').text
+        time.sleep(0.5)
         soup = BeautifulSoup(html_pl_teams, 'lxml')
         row_soup = soup.find_all('tr')
         matches = []

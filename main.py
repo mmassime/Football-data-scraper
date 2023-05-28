@@ -1,9 +1,13 @@
-from Leagues import PremierLeague, SerieA, LaLiga, Bundes, Ligue1
+from Leagues import SerieA
 
-league = SerieA('2012-2013')
-#Print all the tables of the main leagues
+serie_a = SerieA()
+lazio = serie_a.get_teams()['Lazio']
 
-print(league.get_teams()['Lazio'].get_players())
+print(lazio.get_players())
+
+
+
+
 
     
 
