@@ -1,7 +1,7 @@
 # Football data scraper
 Web scarper to retrieve football data from https://fbref.com/en/
 
-Attention: if the website detects too many requests per minute it might block you for 1 hour to avoid that a time sleep of 0.5 seconds has been added after every request.
+Attention: if the website detects too many requests per minute it might block you for 1 hour. To avoid that a time sleep of 0.5 seconds has been added after every request.
 
 
 
@@ -11,11 +11,21 @@ Attention: if the website detects too many requests per minute it might block yo
 -   lxml=4.9.2
 
 ## List of available Leagues:
--   Premier League
--   La Liga
--   Serie A
--   Ligue1
--   Bundesliga
+-   Premier League (ENG)
+-   Championship (ENG)
+-   La Liga (SPA)
+-   Serie A (ITA)
+-   Ligue1 (FRA)
+-   Bundesliga (GER)
+-   Jupiler Pro League (BEL)
+-   Eredivisie (NET)
+-   Série A (BRA)
+-   Liga MX (MEX)
+-   Primeira Liga (POR)
+-   Primera Division (ARG)
+-   Saudi Pro League (SAU)
+-   Scottish Premiership (SCO)
+
 
 ## To initialize a league:
 ```py
@@ -134,6 +144,10 @@ for league in leagues:
 ```
 ## Methods of a Player object:
 to be added.
+
+## Problems:
+- Some leagues that uses playoff may have problems when showing matches 
+- If any other problem is found please open an issue
 
 
 More functions will be added in the future.

@@ -23,7 +23,8 @@ class Team():
         week = 0
         for tr in row_soup:
             league = tr.find('td', {'data-stat':'comp'})
-            if league and league.text == self.league.league_name.replace("-", " "):
+
+            if league and league.text in self.league.league_name.replace("-", " "):
                 week += 1
                 venue = tr.find('td', {'data-stat':'venue'})
                 if venue and venue.text == "Home":

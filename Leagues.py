@@ -37,18 +37,10 @@ class League():
         soup = BeautifulSoup(html_pl_teams, 'lxml')
         teams_soup = soup.find_all('table', class_='stats_table sortable min_width force_mobilize')[1]
         teams_soup_teams = teams_soup.find_all('a')
-        teams_soup_img = teams_soup.find_all('img')
         teams = {}
 
-        for team, img, i in zip(teams_soup_teams, teams_soup_img, range(1, len(teams_soup_teams)+1)):
+        for team, i in zip(teams_soup_teams, range(1, len(teams_soup_teams)+1)):
             teams[i] = self.teams[team.text]
-            """
-            img_data = requests.get(img['src']).content 
-
-            with open(f'img/{team.text}.jpg', 'wb') as handler: 
-
-                    handler.write(img_data)
-            """
         return teams
     
     def get_matches(self):
@@ -62,8 +54,9 @@ class League():
         row_soup = soup.find_all('tr')
         matches = []
         for tr in row_soup:
-            week = tr.find('th', {'data-stat':'gameweek'}).text
-            if week and week.isnumeric():
+            week = tr.find('th', {'data-stat':'gameweek'})
+            if week and week.text.isnumeric():
+                week = week.text
                 team1 = tr.find('td', {'data-stat':'home_team'}).text
                 team2 = tr.find('td', {'data-stat':'away_team'}).text
                 score = tr.find('td', {'data-stat':'score'}).text
@@ -97,5 +90,40 @@ class Ligue1(League):
 
 class Bundes(League): 
     def __init__(self, year="current"):
-        League.__init__(self, 'Bundesliga', '20', 'Bundes', year)
+        League.__init__(self, 'Bundesliga', '20', 'Germany', year)
 
+class JupilerProLeague(League): 
+    def __init__(self, year="current"):
+        League.__init__(self, 'Belgian-First-Division-A', '37', 'Belgium', year)
+
+class Championship(League): 
+    def __init__(self, year="current"):
+        League.__init__(self, 'Championship', '10', 'England', year)
+
+class Eredivisie(League): 
+    def __init__(self, year="current"):
+        League.__init__(self, 'Eredivisie', '23', 'Netherlands', year)
+
+class BrazilianSerieA(League): 
+    def __init__(self, year="current"):
+        League.__init__(self, 'Série-A', '24', 'Brazil', year)
+
+class LigaMX(League): 
+    def __init__(self, year="current"):
+        League.__init__(self, 'Liga-MX', '31', 'Mexico', year)
+
+class PrimeiraLiga(League): 
+    def __init__(self, year="current"):
+        League.__init__(self, 'Primeira-Liga', '32', 'Portugal', year)
+
+class PrimeraDivision(League): 
+    def __init__(self, year="current"):
+        League.__init__(self, 'Primera-Div', '21', 'Argentina', year)
+
+class SaudiProfessionalLeague(League): 
+    def __init__(self, year="current"):
+        League.__init__(self, 'Pro-League', '70', 'Saudi Arabia', year)
+
+class ScottishPremiership(League): 
+    def __init__(self, year="current"):
+        League.__init__(self, 'Scottish-Premiership', '40', 'Scotland', year)

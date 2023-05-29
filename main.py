@@ -1,9 +1,7 @@
 from Leagues import SerieA
 
-serie_a = SerieA()
-lazio = serie_a.get_teams()['Lazio']
-
-print(lazio.get_players())
+serie_a = SerieA("1999-2000")
+print(serie_a.get_table()[1].get_players())
 
 
 
