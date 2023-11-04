@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from Team import Team
+from footballscraper.Team import Team
 import requests
 import time
 

@@ -146,7 +146,7 @@ for league in leagues:
 to be added.
 
 ## Problems:
-- Some leagues that uses playoff may have problems when showing matches 
+- Some leagues that use playoff may have problems when showing matches 
 - If any other problem is found please open an issue
 
 

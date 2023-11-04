@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
-from Player import Player
+from .Player import Player
 import time
 
 class Team():
